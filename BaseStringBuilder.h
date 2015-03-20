@@ -3,7 +3,7 @@
 #include <initializer_list>
 #include <type_traits>
 
-// applyArg should be overloaded for string type in following forms:
+// applyArg should be overloaded for string type desirably at least in the following forms:
 // applyArg(StringType &, IntegralType value, int fieldWidth, int base, CharType
 // fillChar)
 // applyArg(StringType &, CharType value, int fieldWidth, CharType fillChar)
@@ -11,6 +11,7 @@
 // fillChar)
 // applyArg(StringType &, double value, char floatingPointFormat, int
 // fieldWidth, CharType fillChar)
+// overloads should be place in namespace `BaseStringBuilderDetail`
 
 // If some functions are not used they may not be defined
 
@@ -63,7 +64,7 @@ class BaseStringBuilder {
       typename Integral,
       typename std::enable_if<std::is_integral<Integral>::value, int>::type = 0>
   BaseStringBuilder &arg(Integral value) {
-    applyArg(m_string, value, m_fieldWidth, m_base, m_fillChar);
+    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_base, m_fillChar);
     return *this;
   }
 
@@ -74,18 +75,18 @@ class BaseStringBuilder {
   }
 
   BaseStringBuilder &arg(typename StringType::value_type value) {
-    applyArg(m_string, value, m_fieldWidth, m_fillChar);
+    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_fillChar);
     return *this;
   }
 
   BaseStringBuilder &arg(double value) {
-    applyArg(m_string, value, m_fieldWidth, m_floatingPointFormat, m_precision,
+    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_floatingPointFormat, m_precision,
              m_fillChar);
     return *this;
   }
 
   BaseStringBuilder &arg(const StringType &value) {
-    applyArg(m_string, value, m_fieldWidth, m_fillChar);
+    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_fillChar);
     return *this;
   }
 
@@ -99,7 +100,7 @@ class BaseStringBuilder {
  private:
   StringType m_string;
   int m_fieldWidth = 0;
-  typename StringType::value_type m_fillChar = QLatin1Char(' ');
+  typename StringType::value_type m_fillChar = ' ';
   int m_base = 10;
   int m_precision = -1;
   char m_floatingPointFormat = 'g';
