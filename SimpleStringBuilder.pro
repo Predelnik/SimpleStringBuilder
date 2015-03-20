@@ -9,5 +9,8 @@ msvc {
 }
 
 # Input
-HEADERS += SimpleStringBuilder.h
-SOURCES += SimpleStringBuilder.cpp
+SOURCES += main.cpp
+
+HEADERS += BaseStringBuilder.h
+HEADERS += QStringBuilder.h
+
