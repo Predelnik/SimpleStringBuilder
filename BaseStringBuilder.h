@@ -4,14 +4,11 @@
 #include <type_traits>
 
 // applyArg should be overloaded for string type desirably at least in the following forms:
-// applyArg(StringType &, IntegralType value, int fieldWidth, int base, CharType
-// fillChar)
+// applyArg(StringType &, IntegralType value, int fieldWidth, int base, CharType fillChar)
 // applyArg(StringType &, CharType value, int fieldWidth, CharType fillChar)
-// applyArg(StringType &, const StringType &value, int fieldWidth, CharType
-// fillChar)
-// applyArg(StringType &, double value, char floatingPointFormat, int
-// fieldWidth, CharType fillChar)
-// overloads should be place in namespace `BaseStringBuilderDetail`
+// applyArg(StringType &, const StringType &value, int fieldWidth, CharType fillChar)
+// applyArg(StringType &, double value, int fieldWidth, char floatingPointFormat, int precision, CharType fillChar)
+// overloads should be place in namespace `BaseStringBuilderAdapter`
 
 // If some functions are not used they may not be defined
 
@@ -27,7 +24,8 @@ class BaseStringBuilder {
   }
 
   // Output:
-  operator StringType() { return m_string; }
+  StringType toString () { return m_string; }
+  operator StringType() { return toString (); }
 
   // Modifying state:
   BaseStringBuilder &setFieldWidth(int fieldWidth) {
@@ -64,7 +62,7 @@ class BaseStringBuilder {
       typename Integral,
       typename std::enable_if<std::is_integral<Integral>::value, int>::type = 0>
   BaseStringBuilder &arg(Integral value) {
-    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_base, m_fillChar);
+    BaseStringBuilderAdapter::applyArg(m_string, value, m_fieldWidth, m_base, m_fillChar);
     return *this;
   }
 
@@ -75,18 +73,18 @@ class BaseStringBuilder {
   }
 
   BaseStringBuilder &arg(typename StringType::value_type value) {
-    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_fillChar);
+    BaseStringBuilderAdapter::applyArg(m_string, value, m_fieldWidth, m_fillChar);
     return *this;
   }
 
   BaseStringBuilder &arg(double value) {
-    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_floatingPointFormat, m_precision,
+    BaseStringBuilderAdapter::applyArg(m_string, value, m_fieldWidth, m_floatingPointFormat, m_precision,
              m_fillChar);
     return *this;
   }
 
   BaseStringBuilder &arg(const StringType &value) {
-    BaseStringBuilderDetail::applyArg(m_string, value, m_fieldWidth, m_fillChar);
+    BaseStringBuilderAdapter::applyArg(m_string, value, m_fieldWidth, m_fillChar);
     return *this;
   }
 

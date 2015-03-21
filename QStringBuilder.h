@@ -3,7 +3,7 @@
 #include "BaseStringBuilder.h"
 #include <QString>
 
-namespace BaseStringBuilderDetail
+namespace BaseStringBuilderAdapter
 {
 template <typename... ArgTypes>
 void applyArg (QString &string, ArgTypes&&... args)
