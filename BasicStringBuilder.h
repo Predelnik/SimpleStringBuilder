@@ -107,14 +107,15 @@ struct applyArgBasicStringImpl {
 };  // struct applyArgBasicStringImpl
 
 template <typename CharType, typename... ArgTypes>
-void applyArg (StringTag<std::basic_string<CharType>>, ArgTypes &&... args) {
-  applyArgBasicStringImpl<CharType>::applyArg (std::forward<ArgTypes> (args)...);
+void applyArg(StringTag<std::basic_string<CharType>>, ArgTypes &&... args) {
+  applyArgBasicStringImpl<CharType>::applyArg(std::forward<ArgTypes>(args)...);
 }
 
 template <typename CharType, typename... ArgTypes>
-void applyIntegralArg (StringTag<std::basic_string<CharType>>,
-  ArgTypes &&... args) {
-  applyArgBasicStringImpl<CharType>::applyIntegralArg (std::forward<ArgTypes> (args)...);
+void applyIntegralArg(StringTag<std::basic_string<CharType>>,
+                      ArgTypes &&... args) {
+  applyArgBasicStringImpl<CharType>::applyIntegralArg(
+      std::forward<ArgTypes>(args)...);
 }
 
 }  // namespace BaseStringBuilderDetail
