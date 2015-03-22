@@ -1,9 +1,9 @@
 #include "BasicStringBuilder.h"
 #include "QStringBuilder.h"
 
-#include <QDebug>
-
 #include <iostream>
+
+#include <QTextStream>
 
 void qStringTest ()
 {
@@ -73,12 +73,12 @@ int main (void)
 {
   #ifdef _MSC_VER
   _set_output_format (_TWO_DIGIT_EXPONENT); // Microsoft specific, to unify behavior with Qt
-  #endif _MSC_VER
+  #endif // _MSC_VER
 
   std::cout << "QString\n";
   qStringTest ();
-  std::cout << "std::string\n";
+  std::cout << "\nstd::string\n";
   stdStringTest ();
-  std::cout << "std::wstring\n";
+  std::cout << "\nstd::wstring\n";
   stdWstringTest ();
 }

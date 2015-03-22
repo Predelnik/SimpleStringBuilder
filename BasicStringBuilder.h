@@ -18,7 +18,7 @@ struct applyArgBasicStringImpl {
   static void applyArg(StringType &str, const StringType &arg, int fieldWidth,
                        CharType fillChar) {
     std::string r = R"(\%(\d+))";
-    std::basic_regex<CharType> pattern(StringType (r.begin (), r.end ()));
+    std::basic_regex<CharType> pattern(StringType(r.begin(), r.end()));
     auto lowestPattern = std::make_pair(
         std::numeric_limits<int>::max(),
         std::make_pair(str.cend(), str.cend()));  // lowest out of %1, %2 etc.
@@ -44,8 +44,9 @@ struct applyArgBasicStringImpl {
     if (lowestPattern.second.first != str.cend()) {
       StringType beautifiedArg = arg;
       beautifiedArg.insert(
-          fieldWidth > 0 ? beautifiedArg.begin() : beautifiedArg.end (),
-          std::max(abs (fieldWidth) - static_cast<int>(arg.length()), 0), fillChar);
+          fieldWidth > 0 ? beautifiedArg.begin() : beautifiedArg.end(),
+          std::max(abs(fieldWidth) - static_cast<int>(arg.length()), 0),
+          fillChar);
       str.replace(lowestPattern.second.first, lowestPattern.second.second,
                   beautifiedArg);
     } else {
@@ -58,11 +59,11 @@ struct applyArgBasicStringImpl {
     applyArg(str, StringType(1, value), fieldWidth, fillChar);
   }
 
-  template <typename Integral>
-  static std::basic_string<CharType> toStringInBase(Integral val, int base) {
-    if (base < 2 || base > 36)
-    {
-      assert (false); // Wrong base was used
+  template <typename IntegralType>
+  static std::basic_string<CharType> toStringInBase(IntegralType val,
+                                                    int base) {
+    if (base < 2 || base > 36) {
+      assert(false);  // Wrong base was used
       base = 10;
     }
 
@@ -81,11 +82,9 @@ struct applyArgBasicStringImpl {
     return result;
   }
 
-  template <
-      typename Integral,
-      typename std::enable_if<std::is_integral<Integral>::value, int>::type = 0>
-  static void applyArg(StringType &str, Integral value, int fieldWidth,
-                       int base, CharType fillChar) {
+  template <typename IntegralType>
+  static void applyIntegralArg(StringType &str, IntegralType value,
+                               int fieldWidth, int base, CharType fillChar) {
     applyArg(str, toStringInBase(value, base), fieldWidth, fillChar);
   }
 
@@ -107,11 +106,28 @@ struct applyArgBasicStringImpl {
   }
 };  // struct applyArgBasicStringImpl
 
-template <typename CharType, typename... ArgTypes>
-void applyArg(std::basic_string<CharType> &str, ArgTypes &&... args) {
-  applyArgBasicStringImpl<CharType>::applyArg(str,
-                                              std::forward<ArgTypes>(args)...);
+template <typename... ArgTypes>
+void applyArg(StringTag<std::string>, ArgTypes &&... args) {
+  applyArgBasicStringImpl<char>::applyArg(std::forward<ArgTypes>(args)...);
 }
+
+template <typename... ArgTypes>
+void applyIntegralArg(StringTag<std::string>,
+                      ArgTypes &&... args) {
+  applyArgBasicStringImpl<char>::applyIntegralArg(std::forward<ArgTypes>(args)...);
+}
+
+template <typename... ArgTypes>
+void applyArg (StringTag<std::wstring>, ArgTypes &&... args) {
+  applyArgBasicStringImpl<wchar_t>::applyArg (std::forward<ArgTypes> (args)...);
+}
+
+template <typename... ArgTypes>
+void applyIntegralArg (StringTag<std::wstring>,
+  ArgTypes &&... args) {
+  applyArgBasicStringImpl<wchar_t>::applyIntegralArg (std::forward<ArgTypes> (args)...);
+}
+
 
 }  // namespace BaseStringBuilderDetail
 

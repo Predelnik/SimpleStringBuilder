@@ -3,5 +3,6 @@
 *.vcxpro
 *.suo
 *.filters
+*.sln
 debug/**/*
 release/**/*
