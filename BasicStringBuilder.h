@@ -106,28 +106,16 @@ struct applyArgBasicStringImpl {
   }
 };  // struct applyArgBasicStringImpl
 
-template <typename... ArgTypes>
-void applyArg(StringTag<std::string>, ArgTypes &&... args) {
-  applyArgBasicStringImpl<char>::applyArg(std::forward<ArgTypes>(args)...);
+template <typename CharType, typename... ArgTypes>
+void applyArg (StringTag<std::basic_string<CharType>>, ArgTypes &&... args) {
+  applyArgBasicStringImpl<CharType>::applyArg (std::forward<ArgTypes> (args)...);
 }
 
-template <typename... ArgTypes>
-void applyIntegralArg(StringTag<std::string>,
-                      ArgTypes &&... args) {
-  applyArgBasicStringImpl<char>::applyIntegralArg(std::forward<ArgTypes>(args)...);
-}
-
-template <typename... ArgTypes>
-void applyArg (StringTag<std::wstring>, ArgTypes &&... args) {
-  applyArgBasicStringImpl<wchar_t>::applyArg (std::forward<ArgTypes> (args)...);
-}
-
-template <typename... ArgTypes>
-void applyIntegralArg (StringTag<std::wstring>,
+template <typename CharType, typename... ArgTypes>
+void applyIntegralArg (StringTag<std::basic_string<CharType>>,
   ArgTypes &&... args) {
-  applyArgBasicStringImpl<wchar_t>::applyIntegralArg (std::forward<ArgTypes> (args)...);
+  applyArgBasicStringImpl<CharType>::applyIntegralArg (std::forward<ArgTypes> (args)...);
 }
-
 
 }  // namespace BaseStringBuilderDetail
 
