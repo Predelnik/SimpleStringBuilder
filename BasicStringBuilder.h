@@ -47,7 +47,8 @@ struct applyArgBasicStringImpl {
           fieldWidth > 0 ? beautifiedArg.begin() : beautifiedArg.end(),
           std::max(abs(fieldWidth) - static_cast<int>(arg.length()), 0),
           fillChar);
-      str.replace(lowestPattern.second.first, lowestPattern.second.second,
+      str.replace(lowestPattern.second.first - str.cbegin (),
+                  lowestPattern.second.second - lowestPattern.second.first,
                   beautifiedArg);
     } else {
       assert(false);  // Pattern was not applied
