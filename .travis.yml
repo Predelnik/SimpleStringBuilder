@@ -37,7 +37,7 @@ script:
   - if [ -n "$LIBCXX" ]; then CXX_FLAGS="${CXX_FLAGS} -stdlib=libc++ -I/usr/include/c++/v1/"; fi
   - if [ -n "$LIBCXX" ]; then CXX_LINKER_FLAGS="${CXX_FLAGS} -L/usr/lib/ -lc++"; fi
   - mkdir bin && cd bin
-  - qmake ../ QMAKE_CXX="$CXX"
+  - qmake ../ QMAKE_CXX="$CXX" -r
   - make
   - ./bin/gtest/release/gtest
 
