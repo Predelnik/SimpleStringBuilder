@@ -7,13 +7,17 @@
 
 // applyArg should be overloaded for string type desirably at least in the
 // following forms:
-// applyIntegralArg(StringTag<StringType>, StringType &, IntegralType value, int fieldWidth, int base,
+// applyIntegralArg(BaseStringBuilderAdapter::StringTag<StringType>, StringType
+// &, IntegralType value, int fieldWidth, int base,
 // CharType
 // fillChar)
-// applyArg(StringTag<StringType>, StringType &, CharType value, int fieldWidth, CharType fillChar)
-// applyArg(StringTag<StringType>, StringType &, const StringType &value, int fieldWidth, CharType
+// applyArg(BaseStringBuilderAdapter::StringTag<StringType>, StringType &,
+// CharType value, int fieldWidth, CharType fillChar)
+// applyArg(BaseStringBuilderAdapter::StringTag<StringType>, StringType &, const
+// StringType &value, int fieldWidth, CharType
 // fillChar)
-// applyArg(StringTag<StringType>, StringType &, double value, int fieldWidth, char
+// applyArg(BaseStringBuilderAdapter::StringTag<StringType>, StringType &,
+// double value, int fieldWidth, char
 // floatingPointFormat, int precision, CharType fillChar)
 // overloads should be placed in namespace `BaseStringBuilderAdapter`
 
@@ -81,12 +85,14 @@ class BaseStringBuilder {
   // for integral but not character types
   template <typename Type>
   BaseStringBuilder &arg(Type &&value) {
-    integralCheck(std::forward<Type>(value), std::is_integral<Type>{});
+    integralCheck(std::forward<Type>(value), std::is_integral<Type>::type{});
     return *this;
   }
 
-  template <typename... ArgTypes, typename = typename std::enable_if<
-                                      sizeof...(ArgTypes) != 1, void>::type>
+  template <
+      typename... ArgTypes,
+      typename = typename std::enable_if<
+          sizeof...(ArgTypes) != 1 && sizeof...(ArgTypes) != 0, void>::type>
   BaseStringBuilder &arg(ArgTypes &&... args) {
     static_cast<void>(
         std::initializer_list<int>{(arg(std::forward<ArgTypes>(args)), 0)...});
@@ -111,11 +117,11 @@ class BaseStringBuilder {
   }
 
   void applyIntegralPrivate(char value) {
-    argPrivate (typename StringType::value_type{ value });
+    argPrivate(typename StringType::value_type{value});
   }
 
   void applyIntegralPrivate(wchar_t value) {
-    argPrivate (typename StringType::value_type{ value });
+    argPrivate(typename StringType::value_type{value});
   }
 
   BaseStringBuilder &argPrivate(typename StringType::value_type value) {

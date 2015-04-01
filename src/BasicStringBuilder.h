@@ -11,7 +11,7 @@
 
 namespace BaseStringBuilderAdapter {
 template <typename CharType>
-struct applyArgBasicStringImpl {
+struct ApplyArgBasicStringImpl {
   using StringType = std::basic_string<CharType>;
   using ConstItType = typename StringType::const_iterator;
 
@@ -109,13 +109,13 @@ struct applyArgBasicStringImpl {
 
 template <typename CharType, typename... ArgTypes>
 void applyArg(StringTag<std::basic_string<CharType>>, ArgTypes &&... args) {
-  applyArgBasicStringImpl<CharType>::applyArg(std::forward<ArgTypes>(args)...);
+  ApplyArgBasicStringImpl<CharType>::applyArg(std::forward<ArgTypes>(args)...);
 }
 
 template <typename CharType, typename... ArgTypes>
 void applyIntegralArg(StringTag<std::basic_string<CharType>>,
                       ArgTypes &&... args) {
-  applyArgBasicStringImpl<CharType>::applyIntegralArg(
+  ApplyArgBasicStringImpl<CharType>::applyIntegralArg(
       std::forward<ArgTypes>(args)...);
 }
 

@@ -39,6 +39,7 @@ script:
   - mkdir bin && cd bin
   - qmake ../ QMAKE_CXX="$CXX"
   - make
+  - ./bin/gtest/release/gtest
 
 os:
   - linux
