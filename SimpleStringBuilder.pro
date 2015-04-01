@@ -3,7 +3,7 @@ SUBDIRS = gtest\
 		  test \
 		  main \
 
-main.subdir = src\main.pro
+main.subdir = src
 gtest.depends = test
 gtest.depends = main
 
