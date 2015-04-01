@@ -5,5 +5,6 @@ HEADERS *= BaseStringBuilder.h \
 		   QStringBuilder.h
 
 include(defines.pri)
+include(../common.pri)
 
 CONFIG *= static

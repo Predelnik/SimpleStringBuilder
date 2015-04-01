@@ -11,7 +11,9 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../test/release -ltest
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../test/debug -ltest
 else:unix: LIBS += -L$$OUT_PWD/../test/release -ltest
 
-
+*g++* {
+  QMAKE_CXXFLAGS *= -Wno-missing-field-initializers
+}
 
 QMAKE_CXXFLAGS *= $$(CXX_FLAGS)
 QMAKE_LFLAGS *= $$(CXX_LINKER_FLAGS)
@@ -20,3 +22,4 @@ msvc {
 }
 
 include(defines.pri)
+include(../common.pri)
