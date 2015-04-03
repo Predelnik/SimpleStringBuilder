@@ -85,7 +85,7 @@ class BaseStringBuilder {
   // for integral but not character types
   template <typename Type>
   BaseStringBuilder &arg(Type &&value) {
-    integralCheck(std::forward<Type>(value), std::is_integral<Type>::type{});
+    integralCheck(std::forward<Type>(value), typename std::is_integral<Type>::type{});
     return *this;
   }
 

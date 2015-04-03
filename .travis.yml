@@ -38,8 +38,8 @@ script:
   - if [ -n "$LIBCXX" ]; then CXX_LINKER_FLAGS="${CXX_FLAGS} -L/usr/lib/ -lc++"; fi
   - mkdir bin && cd bin
   - qmake ../ QMAKE_CXX="$CXX" -r
-  - make
-  - ./bin/gtest/release/gtest
+  - make release
+  - ./bin/test/test
 
 os:
   - linux

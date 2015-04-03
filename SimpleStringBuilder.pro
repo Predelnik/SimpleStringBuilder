@@ -4,11 +4,12 @@ SUBDIRS = gtest\
 		  main \
 
 main.subdir = src
-gtest.depends = test
-gtest.depends = main
+test.depends = gtest main
 
 TARGET = SimpleStringBuilder
 DESTDIR = bin
+
+include(common.pri)
 
 msvc {
   QMAKE_CFLAGS_WARN_ON -= -W3

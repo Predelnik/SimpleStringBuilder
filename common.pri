@@ -1,7 +1,7 @@
 QMAKE_CXXFLAGS *= $$(CXX_FLAGS)
 QMAKE_LFLAGS *= $$(CXX_LINKER_FLAGS)
 
-CONFIG *= c++11
+CONFIG *= c++11 debug_and_release
 
 msvc {
   QMAKE_CFLAGS_WARN_ON -= -W3

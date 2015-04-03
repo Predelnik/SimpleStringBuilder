@@ -5,29 +5,8 @@
 
 #include <string>
 
-int workaroundMSVCBug () { return 0; }
-
-template <typename StringType>
-struct BasicTestBaseHelper
-{
-  StringType s (const char *str)
-  {
-    return StringType {str};
-  }
-};
-
-template <>
-struct BasicTestBaseHelper<std::wstring>
-{
-  std::wstring s (const char *str)
-  {
-    std::string t {str};
-    return std::wstring {t.begin (), t.end ()};
-  }
-};
-
 template <typename StringType, typename BuilderType>
-struct BasicTest : BasicTestBaseHelper<StringType>
+struct BasicTest
 {
   BasicTest ()
   {
@@ -76,6 +55,22 @@ struct BasicTest : BasicTestBaseHelper<StringType>
   {
     return static_cast<typename StringType::value_type> (cArg);
   }
+  
+  StringType s (const char *str)
+  {
+    return s (str, typename std::is_same<StringType, std::wstring>::type {});
+  }
+  
+  std::wstring s (const char *str, std::true_type)
+  {
+    std::string t {str};
+    return std::wstring {t.begin (), t.end ()};
+  }
+  
+  StringType s (const char *str, std::false_type)
+  {
+    return StringType {str};
+  }
 };
 
 
@@ -98,4 +93,10 @@ TEST (WarmupTest, wstring)
   _set_output_format (_TWO_DIGIT_EXPONENT); // Microsoft specific, to unify behavior with Qt
 #endif // _MSC_VER
   BasicTest<std::wstring, StdWstringBuilder> ();
+}
+
+GTEST_API_ int main(int argc, char **argv) {
+  printf("Running main() from gtest_main.cc\n");
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
