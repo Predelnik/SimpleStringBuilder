@@ -39,7 +39,7 @@ script:
   - mkdir bin && cd bin
   - qmake ../ QMAKE_CXX="$CXX" -r
   - make release
-  - ./bin/test/test
+  - ./test/test
 
 os:
   - linux
