@@ -1,5 +1,4 @@
 # SimpleStringBuilder
-[![Build Status](https://travis-ci.org/Predelnik/SimpleStringBuilder.svg?branch=master)](https://travis-ci.org/Predelnik/SimpleStringBuilder)
 
 Small header-only library which enhances usage of QString::arg function and allows to replicate it for other string classes.
 
