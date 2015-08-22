@@ -6,6 +6,7 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../gtest/release -lgte
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../gtest/debug -lgtest
 else:unix: LIBS += -L$$OUT_PWD/../gtest -lgtest
 
+CONFIG *= console
 QT *= core
 
 include(../gtest/defines.pri)

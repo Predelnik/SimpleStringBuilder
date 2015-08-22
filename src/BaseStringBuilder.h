@@ -25,23 +25,19 @@
 
 namespace BaseStringBuilderAdapter {
 struct StringTagBase {};
-template <typename StringType>
-struct StringTag : StringTagBase {};
+template <typename StringType> struct StringTag : StringTagBase {};
 
-template <typename... Args>
-void applyArg(StringTagBase, Args &&...) {
+template <typename... Args> void applyArg(StringTagBase, Args &&...) {
   assert(false);
 }
 
-template <typename... Args>
-void applyIntegralArg(StringTagBase, Args &&...) {
+template <typename... Args> void applyIntegralArg(StringTagBase, Args &&...) {
   assert(false);
 }
 }
 
-template <typename StringType>
-class BaseStringBuilder {
- public:
+template <typename StringType> class BaseStringBuilder {
+public:
   // Initialization:
 
   BaseStringBuilder(const StringType &string) { operator()(string); }
@@ -83,9 +79,9 @@ class BaseStringBuilder {
   }
 
   // for integral but not character types
-  template <typename Type>
-  BaseStringBuilder &arg(Type &&value) {
-    integralCheck(std::forward<Type>(value), typename std::is_integral<Type>::type{});
+  template <typename Type> BaseStringBuilder &arg(Type &&value) {
+    integralCheck(std::forward<Type>(value),
+                  typename std::is_integral<Type>::type{});
     return *this;
   }
 
@@ -99,14 +95,12 @@ class BaseStringBuilder {
     return *this;
   }
 
- private:
-  template <typename Type>
-  void integralCheck(Type &&value, std::true_type) {
+private:
+  template <typename Type> void integralCheck(Type &&value, std::true_type) {
     applyIntegralPrivate(std::forward<Type>(value));
   }
 
-  template <typename Type>
-  void integralCheck(Type &&value, std::false_type) {
+  template <typename Type> void integralCheck(Type &&value, std::false_type) {
     argPrivate(std::forward<Type>(value));
   }
 
@@ -142,7 +136,7 @@ class BaseStringBuilder {
     return *this;
   }
 
- private:
+private:
   StringType m_string;
   int m_fieldWidth = 0;
   typename StringType::value_type m_fillChar = ' ';
